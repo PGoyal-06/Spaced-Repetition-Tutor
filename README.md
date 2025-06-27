@@ -64,7 +64,7 @@ sequenceDiagram
     FE-->>U: 201 Created + card IDs
 ```
 ## 6 · Entity-Relationship Diagram
-``` mermaid
+```mermaid
 erDiagram
     USER ||--o{ DOCUMENT : uploads
     DOCUMENT ||--o{ PASSAGE : contains
@@ -72,6 +72,7 @@ erDiagram
     PASSAGE ||--o{ FLASHCARD : "generates"
     USER ||--o{ REVIEW : "reviews"
     FLASHCARD ||--o{ REVIEW : "in"
+```
 | Entity        | Key fields                                                       |
 | ------------- | ---------------------------------------------------------------- |
 | **User**      | `id`, `email`, `created_at`                                      |
@@ -80,7 +81,7 @@ erDiagram
 | **Embedding** | `passage_id`, `vector[1536]`                                     |
 | **Flashcard** | `id`, `passage_id`, `question`, `answer`                         |
 | **Review**    | `id`, `user_id`, `flashcard_id`, `ease`, `next_due`, `timestamp` |
-```
+
 ## 7 · Tech Stack
 - Backend: FastAPI · Python 3.12 · Uvicorn
 - LLM / Embeddings: OpenAI GPT-4o + text-embedding-3-small
