@@ -1,0 +1,114 @@
+/* 1) Import your fonts */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display:wght@600;700&family=Poppins:wght@300;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* — Glassmorphism Card — */
+@layer components {
+  .glass {
+    @apply bg-white/20 backdrop-blur-lg border border-white/30 rounded-2xl;
+  }
+}
+
+/* — Base & Background — */
+@layer base {
+  body {
+    @apply bg-cover bg-center bg-no-repeat text-white;
+    background-image: url("/assets/background.jpg");
+  }
+
+  /* Main title in flowing cursive */
+  .site-title {
+    font-family: 'Dancing Script', cursive;
+  }
+
+  /* By-line */
+  .byline {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    opacity: 0.8;
+  }
+
+  /* Glass-heading: readable serif */
+  .glass-heading {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+  }
+}
+@layer utilities {
+  .glow {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1),
+                0 0 60px rgba(255, 255, 255, 0.05);
+  }
+}
+@layer utilities {
+  .rating-glow {
+    box-shadow: 0 0 8px rgba(255, 165, 0, 0.6), 0 0 12px rgba(255, 215, 0, 0.4);
+  }
+}
+@layer utilities {
+  .fade-in-up {
+    animation: fadeInUp 0.8s ease-out both;
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+@layer utilities {
+  .float-note {
+    animation: floatNote 4s ease-in-out infinite;
+  }
+
+  @keyframes floatNote {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+}
+@layer utilities {
+  .emoji-pulse {
+    animation: emojiPulse 1.6s ease-in-out infinite;
+  }
+
+  @keyframes emojiPulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+  }
+}
+@layer utilities {
+  .blinking-cursor {
+    display: inline-block;
+    width: 1px;
+    background-color: white;
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+}

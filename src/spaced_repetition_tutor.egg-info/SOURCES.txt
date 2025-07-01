@@ -1,0 +1,9 @@
+setup.py
+src/ingest/__init__.py
+src/ingest/chunker.py
+src/ingest/cleaner.py
+src/ingest/extractor.py
+src/spaced_repetition_tutor.egg-info/PKG-INFO
+src/spaced_repetition_tutor.egg-info/SOURCES.txt
+src/spaced_repetition_tutor.egg-info/dependency_links.txt
+src/spaced_repetition_tutor.egg-info/top_level.txt
