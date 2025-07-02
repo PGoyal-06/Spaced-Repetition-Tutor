@@ -8,28 +8,28 @@ from api.documents import router as documents_router
 
 app = FastAPI(title="Spaced-Repetition Tutor")
 
-# Replace this with your actual Vercel frontend URL
+# Frontend origins allowed to access this backend
 origins = [
-    "https://spaced-repetition-tutor.vercel.app/",  # For production on Vercel
-    "http://localhost:5173",  # For local dev with Vite
+    "https://spaced-repetition-tutor.vercel.app",  # Production frontend on Vercel
+    "http://localhost:5173",                       # Local frontend (Vite)
 ]
 
-# Enable CORS so your frontend can call your backend
+# Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # or ["*"] to allow all (less secure)
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Include your API routers
+# Mount routers
 app.include_router(search_router)
 app.include_router(flashcards_router)
 app.include_router(reviews_router)
 app.include_router(documents_router)
 
-# Optional for local development
+# Local development only
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("src.main:app", host="127.0.0.1", port=8000, reload=True)
