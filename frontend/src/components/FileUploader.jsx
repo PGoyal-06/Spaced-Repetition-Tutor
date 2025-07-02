@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import axios from 'axios'
+import api from '../services/api'
 
 export default function FileUploader({ onComplete, onDone }) {
   const [selected, setSelected] = useState(null)
@@ -11,7 +11,7 @@ export default function FileUploader({ onComplete, onDone }) {
     const form = new FormData()
     form.append('file', selected)
     try {
-      await axios.post('/documents/', form, { headers: { 'Content-Type': 'multipart/form-data' } })
+      await api.post('/documents/', form, { headers: { 'Content-Type': 'multipart/form-data' } })
       if (onComplete) onComplete()
       else if (onDone) onDone()
     } catch (err) {
