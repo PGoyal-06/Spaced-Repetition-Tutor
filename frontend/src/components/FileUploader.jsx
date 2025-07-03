@@ -15,7 +15,7 @@ export default function FileUploader({ onComplete, onDone }) {
       if (onComplete) onComplete()
       else if (onDone) onDone()
     } catch (err) {
-      console.error(err.response.data)
+      console.error(err)
       alert('Upload failed. Please try again.')
     } finally {
       setLoading(false)
