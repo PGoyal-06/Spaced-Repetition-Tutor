@@ -15,11 +15,13 @@ from ingest.generator import generate_flashcard
 router = APIRouter(prefix="/documents", tags=["documents"])
 logger = logging.getLogger("uvicorn.error")
 
+
 @router.post("/", summary="Upload a lecture PDF and generate flashcards")
 async def upload_and_generate(file: UploadFile = File(...)):
     filename = file.filename or ""
     if not filename.lower().endswith(".pdf"):
-        raise HTTPException(status_code=400, detail="Only PDF files are supported")
+        raise HTTPException(
+            status_code=400, detail="Only PDF files are supported")
 
     tmp_name = f"{uuid.uuid4()}.pdf"
     tmp_path = os.path.join("/tmp", tmp_name)
@@ -65,8 +67,13 @@ async def upload_and_generate(file: UploadFile = File(...)):
         )
 
     except Exception as e:
+        # print to stdout as well as logger
+        import traceback
+        import sys
+        tb = traceback.format_exc()
+        print("❌ Full Traceback:\n", tb, file=sys.stderr)
         logger.error("❌ Error during document processing:")
-        logger.error(traceback.format_exc())
+        logger.error(tb)
         return JSONResponse(
             status_code=500,
             content={"error": f"{type(e).__name__}: {str(e)}"}
