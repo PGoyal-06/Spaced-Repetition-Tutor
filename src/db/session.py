@@ -1,3 +1,4 @@
+# db/session.py
 import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
@@ -20,12 +21,15 @@ SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 # Declarative Base for models
 Base = declarative_base()
 
-def init_db():
-    # 1) Ensure pgvector extension is present
-    with engine.begin() as conn:
-        conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
+# Initialize database: install extension and create tables
 
-    # 2) Import all models so they register with Base
+def init_db():
+    # 1) Ensure pgvector extension exists
+    with engine.connect() as conn:
+        conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
+        conn.commit()
+
+    # 2) Import models to register them with Base.metadata
     import db.models  # noqa: F401
 
     # 3) Create all tables
