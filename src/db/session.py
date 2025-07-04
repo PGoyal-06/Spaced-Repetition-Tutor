@@ -3,18 +3,28 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 
-# Load .env and environment variables
+# Load .env for local development
 load_dotenv()
 
+# Ensure DATABASE_URL is set
 DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
-    raise RuntimeError("DATABASE_URL not set in environment")
+    raise RuntimeError("DATABASE_URL environment variable not set")
 
-# Create engine and session factory
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(bind=engine)
+# Create SQLAlchemy engine
+engine = create_engine(DATABASE_URL, echo=False, future=True)
 
-# Utility to create tables (run once)
+# Session factory
+SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+
+# Declarative Base import for models
+# Models should define Base = declarative_base() or import this Base
+from sqlalchemy.orm import declarative_base
+Base = declarative_base()
+
+# Utility: initialize database schema
+
 def init_db():
-    from .models import Base
+    # Import all modules that define models so they get registered
+    import db.models  # ensure this module imports Base subclasses
     Base.metadata.create_all(bind=engine)

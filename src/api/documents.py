@@ -7,8 +7,7 @@ import logging
 from ingest.extractor import extract_text
 from ingest.cleaner import clean_text
 from ingest.chunker import chunk_text
-from ingest.storage import store_chunk, store_flashcard
-from ingest.generator import generate_flashcard
+from ingest.storage import store_chunk, store_flashcard, generate_flashcard
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 logger = logging.getLogger("uvicorn.error")
@@ -22,7 +21,7 @@ async def upload_and_generate(file: UploadFile = File(...)):
     tmp_name = f"{uuid.uuid4()}.pdf"
     tmp_path = os.path.join("/tmp", tmp_name)
 
-    # --- Core processing (no local try/except) ---
+    # Core processing (exceptions bubble to global handler)
     contents = await file.read()
     logger.info(f"✅ File read successfully: {len(contents)} bytes")
 
@@ -53,16 +52,12 @@ async def upload_and_generate(file: UploadFile = File(...)):
         )
         logger.info(f"✅ Flashcard stored for chunk #{idx}")
 
-    # Clean up temporary file
+    # Clean up temp file
     if os.path.exists(tmp_path):
         os.remove(tmp_path)
         logger.info(f"🧹 Temp file deleted: {tmp_path}")
 
     return JSONResponse(
         status_code=200,
-        content={
-            "status": "ok",
-            "document": doc_title,
-            "cards_generated": len(passages)
-        }
+        content={"status": "ok", "document": doc_title, "cards_generated": len(passages)}
     )
