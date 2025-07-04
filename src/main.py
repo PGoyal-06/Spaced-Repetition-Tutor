@@ -6,7 +6,7 @@ from api.flashcards import router as flashcards_router
 from api.reviews import router as reviews_router
 from api.documents import router as documents_router
 
-app = FastAPI(title="Spaced-Repetition Tutor")
+app = FastAPI(title="Spaced-Repetition Tutor", debug=True)
 
 # CORS settings to allow frontend access (update as needed)
 origins = [
