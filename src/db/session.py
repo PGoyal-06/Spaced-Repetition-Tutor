@@ -1,7 +1,7 @@
 import os
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
 
 # Load .env for local development
 load_dotenv()
@@ -17,14 +17,11 @@ engine = create_engine(DATABASE_URL, echo=False, future=True)
 # Session factory
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
-# Declarative Base import for models
-# Models should define Base = declarative_base() or import this Base
-from sqlalchemy.orm import declarative_base
+# Declarative Base for models
 Base = declarative_base()
 
 # Utility: initialize database schema
-
 def init_db():
-    # Import all modules that define models so they get registered
-    import db.models  # ensure this module imports Base subclasses
+    # Import all model modules so their classes register with Base
+    import db.models  # noqa: F401
     Base.metadata.create_all(bind=engine)
