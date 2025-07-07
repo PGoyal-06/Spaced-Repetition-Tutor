@@ -1,0 +1,12 @@
+name: "Keep Render Awake"
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+
+jobs:
+  ping-render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl Render URL
+        run: |
+          curl -fsS https://spaced-repetition-tutor.onrender.com/ > /dev/null
